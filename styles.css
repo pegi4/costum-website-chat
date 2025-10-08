@@ -114,8 +114,8 @@ p {
 
 #localDemoChat .ldc-toggle.hide {
     opacity: 0;
-    transform: translateY(20px) scale(0.8);
     pointer-events: none;
+    /* Keep same position, just fade out */
 }
 
 /* Suggestion Chips */

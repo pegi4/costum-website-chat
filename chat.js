@@ -140,29 +140,32 @@
       // Hide suggestion chips immediately
       hideSuggestionChips();
       
-      // Start hiding toggle button with smooth animation
+      // Start hiding toggle button with smooth fade-out (no movement)
       toggle.classList.add('hide');
       
-      // Show window and start its animation
-      win.style.display = 'flex';
+      // Wait longer before showing chat window to prevent conflicts
       setTimeout(() => {
-        win.classList.add('show');
-      }, 50);
-      
-      // Show close button with delay for smooth sequence
-      setTimeout(() => {
-        closeBtn.style.display = 'flex';
+        // Show window and start its animation
+        win.style.display = 'flex';
         setTimeout(() => {
-          closeBtn.classList.add('show');
-        }, 10);
-      }, 300);
-      
-      // Focus input after animations complete
-      setTimeout(() => {
-        input.focus();
-        // Add initial bot message
-        appendMsg('Zdravo! Sem VitaminKlinikAI asistent. Kako ti lahko pomagam danes?');
-      }, 600);
+          win.classList.add('show');
+        }, 50);
+        
+        // Show close button with delay for smooth sequence
+        setTimeout(() => {
+          closeBtn.style.display = 'flex';
+          setTimeout(() => {
+            closeBtn.classList.add('show');
+          }, 10);
+        }, 300);
+        
+        // Focus input after animations complete
+        setTimeout(() => {
+          input.focus();
+          // Add initial bot message
+          appendMsg('Zdravo! Sem VitaminKlinikAI asistent. Kako ti lahko pomagam danes?');
+        }, 600);
+      }, 300); // Increased delay to prevent jumping effect
     }
   
     function closeChat() {
@@ -174,20 +177,21 @@
       // Start hiding window
       win.classList.remove('show');
       
-      // Show toggle button after window starts closing
-      setTimeout(() => {
-        toggle.classList.remove('hide');
-        // Show suggestion chips after toggle button appears
-        setTimeout(() => {
-          showSuggestionChips();
-        }, 200);
-      }, 200);
-      
-      // Complete cleanup after all animations
+      // Complete cleanup after window animation
       setTimeout(() => {
         win.style.display = 'none';
         closeBtn.style.display = 'none';
       }, 500);
+      
+      // Wait longer before showing toggle button to prevent jumping
+      setTimeout(() => {
+        toggle.classList.remove('hide');
+        
+        // Show suggestion chips after toggle button appears smoothly
+        setTimeout(() => {
+          showSuggestionChips();
+        }, 300);
+      }, 800); // Increased delay to prevent jumping effect
     }
   
     toggle.addEventListener('click', openChat);
