@@ -62,6 +62,7 @@
     const suggestionChips = container.querySelector('.suggestion-chips');
   
     let isOpen = false;
+    let openedViaSuggestion = false;
     
     // Suggestion chips configuration
     const suggestionConfig = {
@@ -107,6 +108,7 @@
     // Handle suggestion chip click
     function handleSuggestionClick(text) {
       if (!isOpen) {
+        openedViaSuggestion = true;
         openChat();
         setTimeout(() => {
           input.value = text;
@@ -162,14 +164,17 @@
         // Focus input after animations complete
         setTimeout(() => {
           input.focus();
-          // Add initial bot message
-          appendMsg('Zdravo! Sem VitaminKlinikAI asistent. Kako ti lahko pomagam danes?');
+          // Add initial bot message only if not opened via suggestion
+          if (!openedViaSuggestion) {
+            appendMsg('Zdravo! Sem VitaminKlinikAI asistent. Kako ti lahko pomagam danes?');
+          }
         }, 600);
       }, 300); // Increased delay to prevent jumping effect
     }
   
     function closeChat() {
       isOpen = false;
+      openedViaSuggestion = false; // Reset flag when closing
       
       // Start hiding close button first
       closeBtn.classList.remove('show');
@@ -365,7 +370,10 @@
       // FAQ fuzzy match by keyword
       for (const f of FAQS) {
         for (const kw of f.k) {
-          if (lower.includes(kw)) { appendMsg(escapeHtml(f.a)); return; }
+          if (lower.includes(kw)) { 
+            appendMsg(f.a); // Don't escape HTML for FAQ answers
+            return; 
+          }
         }
       }
   
