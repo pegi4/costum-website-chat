@@ -256,7 +256,7 @@ p {
     box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
 }
 
-#localDemoChat .ldc-send {
+#localDemoChat #ldc-send {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     color: white;
     border: none;
@@ -269,7 +269,7 @@ p {
     box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
 }
 
-#localDemoChat .ldc-send:hover {
+#localDemoChat #ldc-send:hover {
     transform: translateY(-1px);
     box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
 }
@@ -278,6 +278,8 @@ p {
     margin: 12px 0; 
     display: flex; 
     animation: slideIn 0.3s ease-out;
+    align-items: flex-start;
+    gap: 8px;
 }
 
 .ldc-msg.user { 
@@ -292,6 +294,20 @@ p {
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     position: relative;
     word-wrap: break-word;
+}
+
+.ldc-msg .bot-logo {
+    width: 32px;
+    height: 32px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    color: white;
+    flex-shrink: 0;
+    box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
 }
 
 .ldc-msg.user .bubble { 

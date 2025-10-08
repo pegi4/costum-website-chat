@@ -116,22 +116,18 @@
       const msg = document.createElement('div');
       msg.className = 'ldc-msg ' + (who==='user' ? 'user' : 'bot');
       
+      // Add bot logo for bot messages
+      if (who === 'bot') {
+        const logo = document.createElement('div');
+        logo.className = 'bot-logo';
+        logo.innerHTML = '🤖';
+        msg.appendChild(logo);
+      }
+      
       const b = document.createElement('div'); 
       b.className = 'bubble'; 
       b.innerHTML = text;
       msg.appendChild(b);
-      
-      // Add timestamp
-      const timestamp = document.createElement('div');
-      timestamp.className = 'timestamp';
-      const now = new Date();
-      const timeStr = now.toLocaleTimeString('sl-SI', { 
-        hour: '2-digit', 
-        minute: '2-digit',
-        hour12: false 
-      });
-      timestamp.textContent = timeStr;
-      msg.appendChild(timestamp);
       
       body.appendChild(msg);
       body.scrollTop = body.scrollHeight;
@@ -141,13 +137,23 @@
     function showTyping() {
       const typing = document.createElement('div');
       typing.className = 'ldc-msg bot';
-      typing.innerHTML = `
-        <div class="ldc-typing">
-          <div class="dot"></div>
-          <div class="dot"></div>
-          <div class="dot"></div>
-        </div>
+      
+      // Add bot logo
+      const logo = document.createElement('div');
+      logo.className = 'bot-logo';
+      logo.innerHTML = '🤖';
+      typing.appendChild(logo);
+      
+      // Add typing animation
+      const typingDiv = document.createElement('div');
+      typingDiv.className = 'ldc-typing';
+      typingDiv.innerHTML = `
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
       `;
+      typing.appendChild(typingDiv);
+      
       body.appendChild(typing);
       body.scrollTop = body.scrollHeight;
       return typing;
