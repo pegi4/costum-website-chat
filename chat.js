@@ -9,7 +9,6 @@
     container.innerHTML = `
       <div class="ldc-toggle" title="Odpri demo chat">
         <span>💬</span>
-        <span>Demo Chat</span>
       </div>
       <div class="ldc-window" style="display:none">
         <div class="ldc-header">
@@ -43,27 +42,60 @@
   
     function openChat() {
       isOpen = true;
+      
+      // Start hiding toggle button with smooth animation
+      toggle.classList.add('hide');
+      
+      // Show window and start its animation
       win.style.display = 'flex';
       setTimeout(() => {
         win.classList.add('show');
-        toggle.style.display = 'none';
+      }, 50);
+      
+      // Show close button with delay for smooth sequence
+      setTimeout(() => {
         closeBtn.style.display = 'flex';
-      }, 10);
-      input.focus();
+        setTimeout(() => {
+          closeBtn.classList.add('show');
+        }, 10);
+      }, 300);
+      
+      // Focus input after animations complete
+      setTimeout(() => {
+        input.focus();
+      }, 600);
     }
   
     function closeChat() {
       isOpen = false;
+      
+      // Start hiding close button first
+      closeBtn.classList.remove('show');
+      
+      // Start hiding window
       win.classList.remove('show');
+      
+      // Show toggle button after window starts closing
+      setTimeout(() => {
+        toggle.classList.remove('hide');
+      }, 200);
+      
+      // Complete cleanup after all animations
       setTimeout(() => {
         win.style.display = 'none';
-        toggle.style.display = 'flex';
         closeBtn.style.display = 'none';
-      }, 400);
+      }, 500);
     }
   
     toggle.addEventListener('click', openChat);
     closeBtn.addEventListener('click', closeChat);
+    
+    // Add pulse animation to toggle button after a delay
+    setTimeout(() => {
+      if (!isOpen) {
+        toggle.classList.add('pulse');
+      }
+    }, 3000);
   
     // Simple dataset (edit these entries as needed)
     const FAQS = [
@@ -221,12 +253,13 @@
     // Auto-open chat after a delay for demo purposes
     setTimeout(() => {
       if (!isOpen) {
+        toggle.classList.remove('pulse');
         openChat();
         setTimeout(() => {
           appendMsg('Zdravo! Sem VitaminKlinikAI asistent. Kako ti lahko pomagam danes?');
-        }, 500);
+        }, 800);
       }
-    }, 2000);
+    }, 5000);
   
   })();
   
