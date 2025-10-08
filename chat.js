@@ -7,6 +7,8 @@
     // WIDGET
     const container = document.createElement('div'); container.id = 'localDemoChat';
     container.innerHTML = `
+      <div class="suggestion-chips" role="group" aria-label="Quick question suggestions">
+      </div>
       <div class="ldc-toggle" title="Odpri demo chat">
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="20" viewBox="0 0 58 69" fill="none">
           <g clip-path="url(#clip0_1050_2013)">
@@ -43,7 +45,7 @@
         <div class="ldc-body" id="ldc-body">
         </div>
         <div class="ldc-input">
-          <input class="ldc-text" placeholder="Start a new message..." />
+          <input class="ldc-text" placeholder="Začnite novo sporočilo..." />
           <button id="ldc-send">Pošlji</button>
         </div>
       </div>
@@ -57,11 +59,86 @@
     const input = container.querySelector('.ldc-text');
     const sendBtn = container.querySelector('#ldc-send');
     const closeBtn = container.querySelector('.ldc-close');
+    const suggestionChips = container.querySelector('.suggestion-chips');
   
     let isOpen = false;
+    
+    // Suggestion chips configuration
+    const suggestionConfig = {
+      texts: [
+        "Kako zmanjšati stres?",
+        "Kateri vitamini so najboljši?",
+        "Kako izboljšati imunost?",
+        "Kaj je najboljše za energijo?",
+        "Kako se osredotočiti bolje?",
+        "Kateri dodatek za sklepe?",
+        "Kako izboljšati prebavo?"
+      ],
+      currentIndex: 0,
+      visibleCount: 2
+    };
+    
+    // Create suggestion chips
+    function createSuggestionChips() {
+      suggestionChips.innerHTML = '';
+      const startIndex = suggestionConfig.currentIndex;
+      
+      for (let i = 0; i < suggestionConfig.visibleCount; i++) {
+        const textIndex = (startIndex + i) % suggestionConfig.texts.length;
+        const chip = document.createElement('button');
+        chip.className = 'suggestion-chip';
+        chip.textContent = suggestionConfig.texts[textIndex];
+        chip.setAttribute('role', 'button');
+        chip.setAttribute('tabindex', '0');
+        chip.setAttribute('aria-label', `Ask: ${suggestionConfig.texts[textIndex]}`);
+        
+        chip.addEventListener('click', () => handleSuggestionClick(suggestionConfig.texts[textIndex]));
+        chip.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            handleSuggestionClick(suggestionConfig.texts[textIndex]);
+          }
+        });
+        
+        suggestionChips.appendChild(chip);
+      }
+    }
+    
+    // Handle suggestion chip click
+    function handleSuggestionClick(text) {
+      if (!isOpen) {
+        openChat();
+        setTimeout(() => {
+          input.value = text;
+          handleIncoming(text);
+          input.value = '';
+        }, 700);
+      }
+    }
+    
+    // Show suggestion chips with animation
+    function showSuggestionChips() {
+      if (!isOpen) {
+        suggestionChips.classList.add('show');
+      }
+    }
+    
+    // Hide suggestion chips
+    function hideSuggestionChips() {
+      suggestionChips.classList.remove('show');
+    }
+    
+    // Rotate suggestion texts
+    function rotateSuggestions() {
+      suggestionConfig.currentIndex = (suggestionConfig.currentIndex + suggestionConfig.visibleCount) % suggestionConfig.texts.length;
+      createSuggestionChips();
+    }
   
     function openChat() {
       isOpen = true;
+      
+      // Hide suggestion chips immediately
+      hideSuggestionChips();
       
       // Start hiding toggle button with smooth animation
       toggle.classList.add('hide');
@@ -100,6 +177,10 @@
       // Show toggle button after window starts closing
       setTimeout(() => {
         toggle.classList.remove('hide');
+        // Show suggestion chips after toggle button appears
+        setTimeout(() => {
+          showSuggestionChips();
+        }, 200);
       }, 200);
       
       // Complete cleanup after all animations
@@ -112,12 +193,29 @@
     toggle.addEventListener('click', openChat);
     closeBtn.addEventListener('click', closeChat);
     
+    // Initialize suggestion chips
+    createSuggestionChips();
+    
+    // Show suggestion chips after a delay
+    setTimeout(() => {
+      if (!isOpen) {
+        showSuggestionChips();
+      }
+    }, 2000);
+    
     // Add pulse animation to toggle button after a delay
     setTimeout(() => {
       if (!isOpen) {
         toggle.classList.add('pulse');
       }
     }, 3000);
+    
+    // Rotate suggestions every 8 seconds
+    setInterval(() => {
+      if (!isOpen && suggestionChips.classList.contains('show')) {
+        rotateSuggestions();
+      }
+    }, 8000);
   
     // Simple dataset (edit these entries as needed)
     const FAQS = [

@@ -87,7 +87,7 @@ p {
 #localDemoChat .ldc-toggle { 
     position: absolute; 
     right: 0; 
-    top: -70px; 
+    top: -120px; 
     background: linear-gradient(135deg, #92C2E8 0%, #7BB3E0 100%);
     color: #fff; 
     padding: 14px 20px; 
@@ -116,6 +116,59 @@ p {
     opacity: 0;
     transform: translateY(20px) scale(0.8);
     pointer-events: none;
+}
+
+/* Suggestion Chips */
+#localDemoChat .suggestion-chips {
+    position: absolute;
+    right: 0;
+    top: -200px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: all 0.3s ease;
+    pointer-events: none;
+}
+
+#localDemoChat .suggestion-chips.show {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+}
+
+#localDemoChat .suggestion-chip {
+    background: #fff;
+    border: 1px solid #e2e8f0;
+    border-radius: 20px;
+    padding: 8px 12px;
+    font-size: 12px;
+    color: #475569;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    white-space: nowrap;
+    max-width: 200px;
+    text-align: center;
+    user-select: none;
+}
+
+#localDemoChat .suggestion-chip:hover {
+    background: #f8fafc;
+    border-color: #92C2E8;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(146, 194, 232, 0.2);
+}
+
+#localDemoChat .suggestion-chip:focus {
+    outline: none;
+    border-color: #92C2E8;
+    box-shadow: 0 0 0 3px rgba(146, 194, 232, 0.1);
+}
+
+#localDemoChat .suggestion-chip:active {
+    transform: translateY(0);
 }
 
 #localDemoChat .ldc-toggle.pulse {
@@ -474,6 +527,19 @@ p {
     
     #localDemoChat .ldc-toggle span {
         display: none;
+    }
+    
+    #localDemoChat .suggestion-chips {
+        top: -140px;
+        right: 0;
+        left: 0;
+        align-items: center;
+    }
+    
+    #localDemoChat .suggestion-chip {
+        max-width: 180px;
+        font-size: 11px;
+        padding: 6px 10px;
     }
 }
 
